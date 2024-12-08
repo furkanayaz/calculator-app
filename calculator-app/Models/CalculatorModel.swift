@@ -8,13 +8,15 @@
 import Foundation
 import SwiftUI
 
-protocol CalculatorUIModel {
+protocol CalculatorUIModel: Identifiable {
     var buttonText: String { get }
     var buttonColor: Color { get }
     var buttonSize: CGSize { get }
 }
 
 enum Keys: String, CalculatorUIModel {
+    var id: String { self.rawValue }
+    
     case Decimal = "."
     case Zero = "0"
     case One = "1"
@@ -31,7 +33,7 @@ enum Keys: String, CalculatorUIModel {
     
     var buttonColor: Color {
         get {
-            Color("num")
+            Color.num
         }
     }
     
@@ -46,19 +48,20 @@ enum Keys: String, CalculatorUIModel {
 }
 
 enum Operators: String, CalculatorUIModel {
-    case percent = "%"
+    var id: String { self.rawValue }
+    
     case multiplus = "x"
     case divide = "÷"
     case plus = "+"
     case minus = "-"
+    case equal = "="
     
     var buttonText: String { get { self.rawValue } }
     
     var buttonColor: Color {
         get {
             switch (self) {
-            case .percent: Color("Hoperator")
-            case .divide, .multiplus, .plus, .minus: Color("Voperator")
+            case .divide, .multiplus, .plus, .minus, .equal: Color.voperator
             }
         }
     }
@@ -71,17 +74,18 @@ enum Operators: String, CalculatorUIModel {
 }
 
 enum Actions: String, CalculatorUIModel {
+    var id: String { self.rawValue }
+    
     case negative = "-/+"
     case clear = "AC"
-    case equal = "="
+    case percent = "%"
     
     var buttonText: String { get { self.rawValue } }
     
     var buttonColor: Color {
         get {
             switch (self) {
-            case .clear, .negative: Color("Hoperator")
-            case .equal: Color("Voperator")
+            case .clear, .negative, .percent: Color.hoperator
             }
         }
     }
