@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct CalculatorButton: View {
-    var expression: any CalculatorUIModel
+    var expression: AnyCalculatorUIModel
     
     var body: some View {
         Button(action: {
             
         }, label: {
-            Circle().frame(width: expression.buttonSize.width, height: expression.buttonSize.height, alignment: .center).foregroundStyle(expression.buttonColor).shadow(color: .black.opacity(0.5), radius: 1, y: 3).overlay(content: {
+            RoundedRectangle(cornerRadius: 50, style: .circular).frame(width: expression.buttonSize.width, height: expression.buttonSize.height, alignment: .center).foregroundStyle(expression.buttonColor).shadow(color: .black.opacity(0.5), radius: 1, y: 3).overlay(content: {
                 Text(expression.buttonText).font(.system(size: 35, weight: .light)).foregroundStyle(.black)
             })
         })
@@ -22,5 +22,5 @@ struct CalculatorButton: View {
 }
 
 #Preview {
-    CalculatorButton(expression: Keys.Zero)
+    CalculatorButton(expression: AnyCalculatorUIModel(Keys.Zero))
 }
