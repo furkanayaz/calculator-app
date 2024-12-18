@@ -7,12 +7,27 @@
 
 import SwiftUI
 
+final private class CalculatorScreenVM: ObservableObject {
+    @Published var displayValue: String = ""
+    
+    func handleAction(action: Actions) {
+        
+    }
+    
+    func handleOperator(operator: Operators) {
+        
+    }
+    
+}
+
 struct CalculatorScreen: View {
+    @StateObject private var viewModel = CalculatorScreenVM()
+    
     var body: some View {
         GeometryReader { geo in
             VStack {
                 ZStack(alignment: .center, content: {
-                    Text("0").foregroundStyle(.black).font(.system(size: 100)).fontWeight(.semibold).background(.yellow)
+                    Text(viewModel.displayValue).foregroundStyle(.black).font(.system(size: 100)).fontWeight(.semibold)/*.background(.yellow)*/
                 }).frame(width: geo.size.width, height: geo.size.height / 2.25)
                 
                 VStack(alignment: .center, spacing: 10) {
@@ -21,7 +36,9 @@ struct CalculatorScreen: View {
                     ForEach(0..<actions.count, id: \.self) { index in
                         HStack(alignment: .center, spacing: 20) {
                             ForEach(actions[index]) { action in
-                                CalculatorButton(expression: action)
+                                CalculatorButton(expression: action, onClick: { text in
+                                    viewModel.displayValue += text
+                                })
                             }
                         }
                     }
