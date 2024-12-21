@@ -10,14 +10,14 @@ import SwiftUI
 
 protocol BaseCalculatorUIModel: Identifiable {
     var id: String { get }
-    var buttonText: String { get }
+    var buttonText: Character { get }
     var buttonColor: Color { get }
     var buttonSize: CGSize { get }
 }
 
 struct AnyCalculatorUIModel: BaseCalculatorUIModel {
     var id: String
-    var buttonText: String
+    var buttonText: Character
     var buttonColor: Color
     var buttonSize: CGSize
     
@@ -50,7 +50,7 @@ enum Keys: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: String { get { id } }
+    var buttonText: Character { get { id.first! } }
     
     var buttonColor: Color {
         get {
@@ -83,7 +83,7 @@ enum Operators: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: String { get { id } }
+    var buttonText: Character { get { id.first! } }
     
     var buttonColor: Color {
         get {
@@ -113,7 +113,7 @@ enum Actions: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: String { get { id } }
+    var buttonText: Character { get { id.first! } }
     
     var buttonColor: Color {
         get {
