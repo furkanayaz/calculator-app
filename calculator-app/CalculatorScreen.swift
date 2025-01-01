@@ -9,8 +9,56 @@ import SwiftUI
 
 final private class CalculatorScreenVM: ObservableObject {
     @Published var displayValue: String = ""
+    @Published var errorMessage: String = ""
+    
+    var isOperator: Bool = false
+    var isAction: Bool = false
     
     let actions: [[AnyCalculatorUIModel]] = [[AnyCalculatorUIModel(Actions.clear), AnyCalculatorUIModel(Actions.negative), AnyCalculatorUIModel(Actions.percent), AnyCalculatorUIModel(Operators.divide)], [AnyCalculatorUIModel(Keys.Seven), AnyCalculatorUIModel(Keys.Eight), AnyCalculatorUIModel(Keys.Nine), AnyCalculatorUIModel(Operators.multiplus)],[AnyCalculatorUIModel(Keys.Four), AnyCalculatorUIModel(Keys.Five), AnyCalculatorUIModel(Keys.Six), AnyCalculatorUIModel(Operators.minus)],[AnyCalculatorUIModel(Keys.One), AnyCalculatorUIModel(Keys.Two), AnyCalculatorUIModel(Keys.Three), AnyCalculatorUIModel(Operators.plus)],[AnyCalculatorUIModel(Keys.Zero), AnyCalculatorUIModel(Keys.Decimal), AnyCalculatorUIModel(Operators.equal)]]
+    
+    func handleClick(model: AnyCalculatorUIModel, text: Character) {
+        if Keys.checkIfExists(id: model.buttonText) {
+            handleKey(key: model.buttonText)
+        }
+        
+        if Operators.checkIfExists(id: model.buttonText) {
+            do {
+                try handleOperator(key: model.buttonText)
+            } catch CalculationError.InvalidFormat {
+                setErrorMessage(with: "Invalid format!")
+            } catch {
+                setErrorMessage(with: "Unknown error!")
+            }
+        }
+        
+        if Actions.checkIfExists(id: model.buttonText) {
+            do {
+                try handleAction(key: model.buttonText)
+            } catch CalculationError.InvalidFormat {
+                setErrorMessage(with: "Invalid format!")
+            } catch {
+                setErrorMessage(with: "Unknown error!")
+            }
+        }
+    }
+    
+    func handleKey(key: Character) {
+        displayValue += String(key)
+    }
+    
+    func handleOperator(key: Character) throws {
+        //if isOperator { throw CalculationError.InvalidFormat }
+        if key == Operators.equal.buttonText {
+            calculate()
+            return
+        }
+        displayValue += String(key)
+    }
+    
+    func handleAction(key: Character) throws {
+        //if isAction { throw CalculationError.InvalidFormat }
+        displayValue += String(key)
+    }
     
     func handleAction(action: AnyCalculatorUIModel, text: Character) throws {
         switch (displayValue.last) {
@@ -18,14 +66,16 @@ final private class CalculatorScreenVM: ObservableObject {
             case Operators.multiplus.buttonText: throw CalculationError.InvalidFormat
             case Operators.minus.buttonText: throw CalculationError.InvalidFormat
             case Operators.plus.buttonText: throw CalculationError.InvalidFormat
-            default: if action.buttonText == Operators.equal.buttonText {
-                calculate()
-            }
+            default: calculate()
         }
     }
     
     private func calculate() {
         
+    }
+    
+    private func setErrorMessage(with msg: String) {
+        errorMessage = msg
     }
 }
 
@@ -44,13 +94,7 @@ struct CalculatorScreen: View {
                         HStack(alignment: .center, spacing: 20) {
                             ForEach(viewModel.actions[index]) { action in
                                 CalculatorButton(expression: action, onClick: { text in
-                                    viewModel.displayValue += String(text)
-                                    
-                                    do {
-                                        try viewModel.handleAction(action: action, text: text)
-                                    } catch {
-                                        print(error.localizedDescription)
-                                    }
+                                    viewModel.handleClick(model: action, text: text)
                                 })
                             }
                         }

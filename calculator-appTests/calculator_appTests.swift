@@ -6,6 +6,7 @@
 //
 
 import XCTest
+//import Expression
 @testable import calculator_app
 
 final class calculator_appTests: XCTestCase {
@@ -19,6 +20,9 @@ final class calculator_appTests: XCTestCase {
     }
 
     func testExample() throws {
+        /*let expression = Expression("5 + 6 * 2 / 2")
+        let result = try expression.evaluate()
+        XCTAssert(result == 11)*/
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         // Any test you write for XCTest can be annotated as throws and async.

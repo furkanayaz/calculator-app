@@ -13,12 +13,14 @@ struct CalculatorButton: View {
     
     var body: some View {
         Button(action: {
-            switch (expression.buttonText) {
+            onClick(expression.buttonText)
+            
+            /*switch (expression.buttonText) {
                 case Actions.clear.buttonText: return
                 case Actions.negative.buttonText: return
                 case Actions.percent.buttonText: return
                 default: onClick(expression.buttonText)
-            }
+            }*/
         }, label: {
             RoundedRectangle(cornerRadius: 50, style: .circular).frame(width: expression.buttonSize.width, height: expression.buttonSize.height, alignment: .center).foregroundStyle(expression.buttonColor).shadow(color: .black.opacity(0.5), radius: 1, y: 3).overlay(content: {
                 Text(String(expression.buttonText)).font(.system(size: 35, weight: .light)).foregroundStyle(.black)

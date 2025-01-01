@@ -8,14 +8,22 @@
 import Foundation
 import SwiftUI
 
-protocol BaseCalculatorUIModel: Identifiable {
+protocol BaseCalculatorUIModel: Identifiable, CaseIterable {
     var id: String { get }
     var buttonText: Character { get }
     var buttonColor: Color { get }
     var buttonSize: CGSize { get }
 }
 
+extension BaseCalculatorUIModel {
+    static func checkIfExists(id: Character) -> Bool {
+        return allCases.map(\.id).contains(String(id))
+    }
+}
+
 struct AnyCalculatorUIModel: BaseCalculatorUIModel {
+    static var allCases: [AnyCalculatorUIModel] = Array()
+    
     var id: String
     var buttonText: Character
     var buttonColor: Color
