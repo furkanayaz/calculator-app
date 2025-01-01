@@ -71,7 +71,13 @@ final private class CalculatorScreenVM: ObservableObject {
     }
     
     private func calculate() {
+        let expression = NSExpression(format: displayValue)
+        guard let result = (expression.expressionValue(with: nil, context: nil) as? Double) else {
+            displayValue = "Calculation error!"
+            return
+        }
         
+        displayValue = String(result)
     }
     
     private func setErrorMessage(with msg: String) {

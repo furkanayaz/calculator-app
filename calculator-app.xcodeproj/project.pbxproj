@@ -47,22 +47,16 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3F945CA72D0587190070797B /* calculator-app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "calculator-app";
 			sourceTree = "<group>";
 		};
 		3F945CB82D05871A0070797B /* calculator-appTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "calculator-appTests";
 			sourceTree = "<group>";
 		};
 		3F945CC22D05871A0070797B /* calculator-appUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "calculator-appUITests";
 			sourceTree = "<group>";
 		};

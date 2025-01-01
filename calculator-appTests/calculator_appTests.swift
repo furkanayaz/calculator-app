@@ -6,35 +6,84 @@
 //
 
 import XCTest
-//import Expression
 @testable import calculator_app
 
 final class calculator_appTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var calculationValue: String = ""
+    
+    func testCalculation_add_with8And9_expected17() {
+        calculationValue = "8+9"
+        let expression = NSExpression(format: calculationValue)
+        
+        let result = expression.expressionValue(with: nil, context: nil) as? Double
+        
+        calculationValue = String(result ?? 0.0)
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, 17.0)
+        XCTAssertEqual(calculationValue, "17.0")
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testCalculation_subtract_with35And13_expected22() {
+        calculationValue = "35-13"
+        let expression = NSExpression(format: calculationValue)
+        
+        let result = expression.expressionValue(with: nil, context: nil) as? Double
+        
+        calculationValue = String(result ?? 0)
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, 22.0)
+        XCTAssertEqual(calculationValue, "22.0")
     }
-
-    func testExample() throws {
-        /*let expression = Expression("5 + 6 * 2 / 2")
-        let result = try expression.evaluate()
-        XCTAssert(result == 11)*/
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testCalculation_multiply_with5And6_expected30() {
+        calculationValue = "5*6"
+        let expression = NSExpression(format: calculationValue)
+        
+        let result = expression.expressionValue(with: nil, context: nil) as? Double
+        
+        calculationValue = String(result ?? 0)
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, 30.0)
+        XCTAssertEqual(calculationValue, "30.0")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testCalculation_divide_with20And4_expected5() {
+        calculationValue = "20 / 4"
+        let expression = NSExpression(format: calculationValue)
+        
+        let result = expression.expressionValue(with: nil, context: nil) as? Double
+        
+        calculationValue = String(result ?? 0)
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, 5.0)
+        XCTAssertEqual(calculationValue, "5.0")
     }
-
+    
+    func testCalculation_complexCalculation_expectedCorrectResult() {
+        calculationValue = "(20 + 10) * 6 / 4"
+        let modResult = NSExpression.modulus(format: calculationValue, modBy: 2)
+        
+        calculationValue = String(modResult)
+        
+        XCTAssertNotNil(modResult)
+        XCTAssertEqual(modResult, 1.0)
+        XCTAssertEqual(calculationValue, "1.0")
+    }
+    
+    func testCalculation_negativeCalculation_expectedGreaterThan0() {
+        calculationValue = "5 * 7 * -1"
+        let expression = NSExpression(format: calculationValue)
+        
+        let result = (expression.expressionValue(with: nil, context: nil) as? Int) ?? 0
+        
+        calculationValue = String(result)
+        
+        XCTAssertNotNil(result)
+        XCTAssertLessThan(result, 0)
+        XCTAssertEqual(calculationValue, "\(result)")
+    }
 }
