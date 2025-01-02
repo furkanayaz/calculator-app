@@ -16,7 +16,7 @@ final private class CalculatorScreenVM: ObservableObject {
     
     let actions: [[AnyCalculatorUIModel]] = [[AnyCalculatorUIModel(Actions.clear), AnyCalculatorUIModel(Actions.negative), AnyCalculatorUIModel(Actions.percent), AnyCalculatorUIModel(Operators.divide)], [AnyCalculatorUIModel(Keys.Seven), AnyCalculatorUIModel(Keys.Eight), AnyCalculatorUIModel(Keys.Nine), AnyCalculatorUIModel(Operators.multiplus)],[AnyCalculatorUIModel(Keys.Four), AnyCalculatorUIModel(Keys.Five), AnyCalculatorUIModel(Keys.Six), AnyCalculatorUIModel(Operators.minus)],[AnyCalculatorUIModel(Keys.One), AnyCalculatorUIModel(Keys.Two), AnyCalculatorUIModel(Keys.Three), AnyCalculatorUIModel(Operators.plus)],[AnyCalculatorUIModel(Keys.Zero), AnyCalculatorUIModel(Keys.Decimal), AnyCalculatorUIModel(Operators.equal)]]
     
-    func handleClick(model: AnyCalculatorUIModel, text: Character) {
+    func handleClick(model: AnyCalculatorUIModel, text: String) {
         if Keys.checkIfExists(id: model.buttonText) {
             handleKey(key: model.buttonText)
         }
@@ -42,11 +42,11 @@ final private class CalculatorScreenVM: ObservableObject {
         }
     }
     
-    func handleKey(key: Character) {
+    func handleKey(key: String) {
         displayValue += String(key)
     }
     
-    func handleOperator(key: Character) throws {
+    func handleOperator(key: String) throws {
         //if isOperator { throw CalculationError.InvalidFormat }
         if key == Operators.equal.buttonText {
             calculate()
@@ -55,13 +55,17 @@ final private class CalculatorScreenVM: ObservableObject {
         displayValue += String(key)
     }
     
-    func handleAction(key: Character) throws {
+    func handleAction(key: String) throws {
         //if isAction { throw CalculationError.InvalidFormat }
         displayValue += String(key)
     }
     
-    func handleAction(action: AnyCalculatorUIModel, text: Character) throws {
-        switch (displayValue.last) {
+    func handleAction(action: AnyCalculatorUIModel, text: String) throws {
+        guard let lastChar = displayValue.last else {
+            throw CalculationError.EmptyExpression
+        }
+        
+        switch (String(lastChar)) {
         case Operators.divide.buttonText: throw CalculationError.InvalidFormat
             case Operators.multiplus.buttonText: throw CalculationError.InvalidFormat
             case Operators.minus.buttonText: throw CalculationError.InvalidFormat

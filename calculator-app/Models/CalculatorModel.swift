@@ -10,13 +10,13 @@ import SwiftUI
 
 protocol BaseCalculatorUIModel: Identifiable, CaseIterable {
     var id: String { get }
-    var buttonText: Character { get }
+    var buttonText: String { get }
     var buttonColor: Color { get }
     var buttonSize: CGSize { get }
 }
 
 extension BaseCalculatorUIModel {
-    static func checkIfExists(id: Character) -> Bool {
+    static func checkIfExists(id: String) -> Bool {
         return allCases.map(\.id).contains(String(id))
     }
 }
@@ -25,7 +25,7 @@ struct AnyCalculatorUIModel: BaseCalculatorUIModel {
     static var allCases: [AnyCalculatorUIModel] = Array()
     
     var id: String
-    var buttonText: Character
+    var buttonText: String
     var buttonColor: Color
     var buttonSize: CGSize
     
@@ -58,7 +58,7 @@ enum Keys: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: Character { get { id.first! } }
+    var buttonText: String { get { id } }
     
     var buttonColor: Color {
         get {
@@ -91,7 +91,7 @@ enum Operators: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: Character { get { id.first! } }
+    var buttonText: String { get { id } }
     
     var buttonColor: Color {
         get {
@@ -121,7 +121,7 @@ enum Actions: String, BaseCalculatorUIModel {
         }
     }
     
-    var buttonText: Character { get { id.first! } }
+    var buttonText: String { get { id } }
     
     var buttonColor: Color {
         get {

@@ -7,4 +7,5 @@
 
 enum CalculationError: Error {
     case InvalidFormat
+    case EmptyExpression
 }
